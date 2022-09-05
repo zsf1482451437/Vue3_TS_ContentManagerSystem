@@ -1,3 +1,11 @@
+/*
+ * @Description: 待编辑
+ * @Author: SiFeng Zhai
+ * @Date: 2022-05-17 15:16:51
+ * @LastEditors: SiFeng Zhai
+ * @LastEditTime: 2022-09-05 17:55:02
+ */
+
 module.exports = {
   root: true,
   env: {
