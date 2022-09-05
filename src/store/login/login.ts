@@ -1,6 +1,13 @@
+/*
+ * @Description: 待编辑
+ * @Author: SiFeng Zhai
+ * @Date: 2022-05-17 15:16:51
+ * @LastEditors: SiFeng Zhai
+ * @LastEditTime: 2022-08-10 08:46:42
+ */
 import { Module } from 'vuex'
-import { ILoginState } from './type'
-import { IRootState } from '../type'
+import { ILoginState } from './types'
+import { IRootState } from '../types'
 import {
   accountLoginRequest,
   requestUserInfoById,
@@ -8,6 +15,7 @@ import {
 } from '@/services/login/login'
 import { IAccount } from '@/services/login/type'
 import localCache from '@/utils/cache'
+import { mapMenuToRoutes, mapMenuToPermission } from '@/utils/map-menus'
 import router from '@/router'
 
 const loginModule: Module<ILoginState, IRootState> = {
@@ -16,7 +24,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   mutations: {
@@ -31,6 +40,18 @@ const loginModule: Module<ILoginState, IRootState> = {
     // 修改用户菜单
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      // userMenus映射成routes
+      const routes = mapMenuToRoutes(userMenus)
+
+      // routes放进main的子路由中
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
+
+      // 获取用户按钮权限
+      const permissions = mapMenuToPermission(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {
