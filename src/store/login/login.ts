@@ -3,7 +3,7 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-05-17 15:16:51
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-08-10 08:46:42
+ * @LastEditTime: 2022-09-15 08:24:26
  */
 import { Module } from 'vuex'
 import { ILoginState } from './types'
@@ -55,7 +55,7 @@ const loginModule: Module<ILoginState, IRootState> = {
     }
   },
   actions: {
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 1.登陆逻辑
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
@@ -63,6 +63,8 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 将token保存到本地缓存
       localCache.setCache('token', token)
 
+      // 发送初始化请求（完整的role/department）
+      dispatch('getInitialDataAction', null, { root: true })
       // 2.请求用户信息
       const userInfoResult = await requestUserInfoById(id)
       const userInfo = userInfoResult.data
@@ -80,10 +82,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 4.跳到首页
       router.push('/main')
     },
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+        // 发送初始化请求（完整的role/department）
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {

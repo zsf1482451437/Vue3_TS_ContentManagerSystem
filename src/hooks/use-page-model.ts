@@ -3,12 +3,12 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-09-05 08:59:24
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-05 09:53:06
+ * @LastEditTime: 2022-09-15 10:49:57
  */
 import { ref } from 'vue'
 import PageModel from '@/components/page-model'
 
-type CallbackFn = () => void
+type CallbackFn = (item?: any) => void
 
 export function usePageModel(newCb?: CallbackFn, editCb?: CallbackFn) {
   const pageModelRef = ref<InstanceType<typeof PageModel>>()
@@ -19,6 +19,7 @@ export function usePageModel(newCb?: CallbackFn, editCb?: CallbackFn) {
     defaultInfo.value = {}
     if (pageModelRef.value) {
       pageModelRef.value.dialogVisible = true
+      pageModelRef.value.title = '新建'
     }
     // newCb有值时调用
     newCb && newCb()
@@ -29,9 +30,10 @@ export function usePageModel(newCb?: CallbackFn, editCb?: CallbackFn) {
     defaultInfo.value = { ...item }
     if (pageModelRef.value) {
       pageModelRef.value.dialogVisible = true
+      pageModelRef.value.title = '编辑'
     }
     // editCb有值时调用
-    editCb && editCb()
+    editCb && editCb(item)
   }
 
   return [pageModelRef, defaultInfo, create, edit]

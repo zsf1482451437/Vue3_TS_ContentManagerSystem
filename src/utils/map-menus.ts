@@ -3,7 +3,7 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-05-23 09:14:18
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-08-10 08:44:09
+ * @LastEditTime: 2022-09-15 11:36:35
  */
 import { IBreadcrumb } from '@/base-ui/breadcrumb/types'
 import { RouteRecordRaw } from 'vue-router'
@@ -90,6 +90,24 @@ export function mapMenuToPermission(userMenus: any[]) {
   _recurseGetPermisstion(userMenus)
 
   return permissions
+}
+
+// 获取菜单所有叶子节点
+export function getMenuLeafKeys(menuList: any) {
+  const leafKeys: number[] = []
+
+  const _recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        _recurseGetLeaf(menu.children)
+      } else {
+        leafKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+
+  return leafKeys
 }
 
 export { firstMenu }

@@ -3,7 +3,7 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-06-02 11:31:53
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-05 08:50:05
+ * @LastEditTime: 2022-09-15 08:42:50
 -->
 <template>
   <div class="page-content">
@@ -94,7 +94,7 @@ export default defineComponent({
       require: true
     }
   },
-  emits: ['creatBtn', 'editBtn'],
+  emits: ['createBtn', 'editBtn'],
   setup(props, { emit }) {
     const store = useStore()
 
@@ -150,7 +150,7 @@ export default defineComponent({
     }
 
     const createClick = () => {
-      emit('creatBtn')
+      emit('createBtn')
     }
 
     const editClick = (item: any) => {

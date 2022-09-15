@@ -1,3 +1,10 @@
+<!--
+ * @Description: 待编辑
+ * @Author: SiFeng Zhai
+ * @Date: 2022-09-05 19:10:14
+ * @LastEditors: SiFeng Zhai
+ * @LastEditTime: 2022-09-15 07:45:07
+-->
 <template>
   <div class="user-info">
     <el-dropdown>
@@ -10,7 +17,7 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item icon="el-icon-circle-close"
+          <el-dropdown-item icon="el-icon-circle-close" @click="handleExitClick"
             >退出登录</el-dropdown-item
           >
           <el-dropdown-item divided>用户信息</el-dropdown-item>

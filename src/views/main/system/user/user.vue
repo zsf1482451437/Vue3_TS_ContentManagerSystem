@@ -3,7 +3,7 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-05-22 21:46:31
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-05 16:18:57
+ * @LastEditTime: 2022-09-15 08:43:06
 -->
 <template>
   <div class="user">
@@ -18,7 +18,7 @@
       ref="pageContentRef"
       :contentTableConfig="contentTableConfig"
       pageName="users"
-      @creatBtn="create"
+      @createBtn="create"
       @editBtn="edit"
     ></page-content>
     <!-- 新建对话框 -->

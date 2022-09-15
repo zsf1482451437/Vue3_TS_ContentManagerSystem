@@ -3,19 +3,20 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-08-31 15:31:47
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-05 16:19:08
+ * @LastEditTime: 2022-09-15 10:20:17
 -->
 <template>
   <!-- 新建弹出框 -->
   <div class="page-modal">
     <el-dialog
       v-model="dialogVisible"
-      title="新建用户"
+      :title="title"
       width="30%"
       center
       destroy-on-close
     >
       <sf-form v-bind="modelConfig" v-model="formData"></sf-form>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
@@ -44,6 +45,10 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     },
+    otherInfo: {
+      type: Object,
+      default: () => ({})
+    },
     pageName: {
       type: String,
       required: true
@@ -52,6 +57,7 @@ export default defineComponent({
   setup(props) {
     const dialogVisible = ref(false)
     const formData = ref<any>({})
+    const title = ref('新建')
 
     watch(
       () => props.defaultInfo,
@@ -71,14 +77,14 @@ export default defineComponent({
         // 编辑
         store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })
       } else {
         // 新建
         store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.otherInfo }
         })
       }
     }
@@ -86,7 +92,8 @@ export default defineComponent({
     return {
       dialogVisible,
       formData,
-      confirm
+      confirm,
+      title
     }
   }
 })
