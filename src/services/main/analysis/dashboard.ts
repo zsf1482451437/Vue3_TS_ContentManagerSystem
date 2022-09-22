@@ -3,15 +3,22 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-09-16 08:19:15
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-16 08:30:08
+ * @LastEditTime: 2022-09-22 09:55:17
  */
 import sfRequest from '@/services'
 
 enum DashboardAPI {
+  amountList = '/goods/amount/list',
   categoryGoodsCount = '/goods/category/count',
   categoryGoodsSale = '/goods/category/sale',
   categoryGoodsFavor = '/goods/category/favor',
   addressGoodsSale = '/goods/address/sale'
+}
+
+export function getAmountList() {
+  return sfRequest.get({
+    url: DashboardAPI.amountList
+  })
 }
 
 export function getCategoryGoodsCount() {

@@ -3,9 +3,10 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-09-16 07:59:48
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-16 08:42:08
+ * @LastEditTime: 2022-09-22 10:09:05
  */
 import {
+  getAmountList,
   getAddressGoodsSale,
   getCategoryGoodsCount,
   getCategoryGoodsFavor,
@@ -19,6 +20,7 @@ const dashboardModule: Module<IDashboardState, IRootState> = {
   namespaced: true,
   state() {
     return {
+      topPanelDatas: [],
       categoryGoodsCount: [],
       categoryGoodsSale: [],
       categoryGoodsFavor: [],
@@ -26,6 +28,9 @@ const dashboardModule: Module<IDashboardState, IRootState> = {
     }
   },
   mutations: {
+    changeTopPanelDatas(state, list) {
+      state.topPanelDatas = list
+    },
     changeCategoryGoodsCount(state, list) {
       state.categoryGoodsCount = list
     },
@@ -41,6 +46,9 @@ const dashboardModule: Module<IDashboardState, IRootState> = {
   },
   actions: {
     async getDashboardDataAction({ commit }) {
+      const resultTopPanelDatas = await getAmountList()
+      commit('changeTopPanelDatas', resultTopPanelDatas.data)
+
       const categoryCountResult = await getCategoryGoodsCount()
       commit('changeCategoryGoodsCount', categoryCountResult.data)
 

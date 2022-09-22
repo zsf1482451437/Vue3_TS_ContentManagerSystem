@@ -3,10 +3,20 @@
  * @Author: SiFeng Zhai
  * @Date: 2022-09-05 19:10:14
  * @LastEditors: SiFeng Zhai
- * @LastEditTime: 2022-09-16 20:24:44
+ * @LastEditTime: 2022-09-22 10:20:50
 -->
 <template>
   <div class="dashboard">
+    <!-- 顶 -->
+    <div class="top">
+      <el-row :gutter="10">
+        <template v-for="item in topPanelData" :key="item.title">
+          <el-col :md="12" :lg="6" :xl="6">
+            <statistical-panel :panelData="item" />
+          </el-col>
+        </template>
+      </el-row>
+    </div>
     <!-- 上 -->
     <el-row :gutter="10">
       <el-col :span="7">
@@ -45,6 +55,7 @@
 import { computed, defineComponent } from 'vue'
 import { useStore } from '@/store'
 
+import StatisticalPanel from '@/components/statistical-panel'
 import SfCard from '@/base-ui/card'
 import {
   PieEchart,
@@ -58,6 +69,7 @@ export default defineComponent({
   name: 'dashboard',
   components: {
     SfCard,
+    StatisticalPanel,
     PieEchart,
     RoseEchart,
     LineEchart,
@@ -67,6 +79,9 @@ export default defineComponent({
   setup() {
     const store = useStore()
     store.dispatch('dashboard/getDashboardDataAction')
+
+    // 顶部数据
+    const topPanelData = computed(() => store.state.dashboard.topPanelDatas)
     // 饼图和玫瑰图数据
     const categoryGoodsCount = computed(() => {
       return store.state.dashboard.categoryGoodsCount.map((item: any) => {
@@ -106,6 +121,7 @@ export default defineComponent({
       })
     })
     return {
+      topPanelData,
       categoryGoodsCount,
       categoryGoodsSale,
       categoryGoodsFavor,
@@ -115,8 +131,11 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.content-row {
-  margin-top: 20px;
+<style scoped lang="less">
+.dashboard {
+  background-color: #f5f5f5;
+  .content-row {
+    margin-top: 20px;
+  }
 }
 </style>
